@@ -1,0 +1,5 @@
+Selain -> Palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+Palvelin: vastaa kyselyyn statuskoodilla 201 created.
+Palvelin: Javascript koodi hakee lomake-elementin ja rekisterˆi sille tapahtumank‰sittelij‰n l‰hett‰m‰‰n lomake.
+	Koodi est‰‰ oletusarvoisen lomakkeenl‰hetystoiminnan, lis‰‰ uuden valuen listaan palvelimelle.
+Selain: Lataa listan uudelleen.
