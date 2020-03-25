@@ -1,8 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+//Komponentti Header
+const Header = (props) => {
+  return(
+    <div>
+      <h1>{props.name}</h1>
+    </div>
+  )
+}
+
+//
+
 const App = () => {
-  const course = 'Half Stack application development'
+  const Course = 'Half Stack application development'
   const part1 = 'Fundamentals of React'
   const exercises1 = 10
   const part2 = 'Using props to pass data'
@@ -12,7 +23,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>{course}</h1>
+      <Header name={Course} />
       <p>
         {part1} {exercises1}
       </p>
