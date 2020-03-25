@@ -1,7 +1,0 @@
-Selain -> Palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
-Palvelin -> Selain: HTML tiedosto
-Selain -> Palvelin: HTML tiedostosta tulee tieto tehdä HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
-		ja HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
-Selain suorittaa javascript koodia.
-Selain -> Palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
-Javascript koodi parsii JSON datan listaan.
