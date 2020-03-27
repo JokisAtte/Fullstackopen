@@ -6,9 +6,24 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const totalVotes = good + neutral + bad
 
-  const handleClick =(props) => {
-    
+  const Average = () => {
+    return (
+      <p> average {(good+bad*-1)/(totalVotes)} </p>
+    )
+  }
+  
+  const Total = () => {
+    return (
+      <p> all {(totalVotes)} </p>
+    )
+  }
+
+  const Positive = () => {
+    return(
+      <p> positive {good/(totalVotes)*100} %</p>
+    )
   }
 
   return (
@@ -21,6 +36,9 @@ const App = () => {
       <p> good {good}</p>
       <p> neultra {neutral}</p>
       <p> bad {bad}</p>
+      <Total></Total>
+      <Average></Average>
+      <Positive></Positive>
     </div>
   )
 }
