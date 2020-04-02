@@ -7,15 +7,16 @@ const App = (props) => {
   return (
     <div>
       <p>{props.anecdotes[selected]}</p>
-      <Button name = "next anecdote" value = {props.selected} set = {setSelected}></Button>
+      <Button name = "next anecdote" value = {selected} set = {setSelected}></Button>
     </div>
   )
 }
 
 const Button = (props) => {
-  let rand = 0
-  rand = Math.floor(Math.random() * Math.floor(anecdotes.length));
-  console.log(rand)
+  let rand = props.value
+  while(props.value === rand){
+    rand = Math.floor(Math.random() * Math.floor(anecdotes.length));
+  }
   return(
       <button onClick = {() => props.set(rand)}>{props.name}</button>
   )
