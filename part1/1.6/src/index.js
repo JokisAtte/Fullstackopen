@@ -7,7 +7,7 @@ const Statistics = (props) => {
   const bad = props.bad
   const totalVotes = good + neutral + bad
   
-  if(totalVotes == 0){
+  if(totalVotes === 0){
     return(
       <div>
         <p>No feedback given</p>
@@ -15,29 +15,28 @@ const Statistics = (props) => {
     ) 
   } else return(
   <div>
-    <StatisticLine text = "good" value = {good}/>
-    <StatisticLine text = "neutral" value = {neutral}/>
-    <StatisticLine text = "bad" value = {bad}/>
-    <StatisticLine text = "all" value = {good+neutral+bad}/>
-    <StatisticLine text = "average" value = {(good+bad*-1)/(totalVotes)}/>
-    <StatisticLine text = "positive"
-      value = {(good/(totalVotes)*100)}
-      procent = "%"/>
+    <table>
+      <tbody>
+        <tr><StatisticLine text = "good" value = {good}/></tr>
+        <tr><StatisticLine text = "neutral" value = {neutral}/></tr>
+        <tr><StatisticLine text = "bad" value = {bad}/></tr>
+        <tr><StatisticLine text = "all" value = {good+neutral+bad}/></tr>
+        <tr><StatisticLine text = "average" value = {(good+bad*-1)/(totalVotes)}/></tr>
+        <tr><StatisticLine text = "positive"
+        value = {(good/(totalVotes)*100)}
+        procent = "%"/></tr>
+      </tbody>
+    </table>
   </div>
   )
 }
 
 const StatisticLine = (props) =>{
   return(
-      <table>
-        <tbody>
-          <tr>
-            <td>{props.text}</td> 
-            <td>{props.value}</td>
-            <td>{props.procent}</td>
-          </tr>
-        </tbody>
-      </table>
+    <React.Fragment>
+    <td>{props.text}</td>
+    <td>{props.value}{props.procent}</td>
+    </React.Fragment>
   )
 }
 
