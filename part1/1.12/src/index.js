@@ -6,12 +6,7 @@ const App = (props) => {
   const [scores, setScores] = useState(new Array(anecdotes.length).fill(0))
   
   
-  const handleVote = () => {
-    let copy = scores
-    copy[selected] += 1
-    setScores(copy)
-    console.log(scores)
-  }
+
 
   function indexOfMax(arr) {
 
@@ -26,14 +21,14 @@ const App = (props) => {
     }
     return maxIndex;
 }
-
+  console.log(scores)
   return (
     <div>
       <h1>Anecdote of the day</h1>
       <p>{props.anecdotes[selected]}</p>
       <p>has {scores[selected]} votes</p>
       <AnecButton name = "next anecdote" value = {selected} set = {setSelected}></AnecButton>
-      <VoteButton name = 'vote' value = {scores} set = {handleVote}/>
+      <VoteButton name = 'vote' value = {scores} select = {selected} set = {setScores}/>
       <h1>Anecdote with the most votes</h1>
       <p>{props.anecdotes[indexOfMax(scores)]}</p>
 
@@ -42,8 +37,15 @@ const App = (props) => {
 }
 
 const VoteButton = (props) => {
+
+  const handleVote = () => {
+    let copy = props.value
+    copy[props.select] += 1
+    return copy
+  }
+
   return(
-    <button onClick = {props.set}>{props.name}</button>
+    <button onClick = {() => props.set(handleVote)}>{props.name}</button>
   )
 }
 
