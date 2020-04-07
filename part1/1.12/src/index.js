@@ -3,26 +3,47 @@ import ReactDOM from 'react-dom'
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
-  const [scores, setScores] = useState([])
+  const [scores, setScores] = useState(new Array(anecdotes.length).fill(0))
   
-  const addScores = () => {
-    setScores[scores[selected] + 1]
+  
+  const handleVote = () => {
+    let copy = scores
+    copy[selected] += 1
+    setScores(copy)
     console.log(scores)
   }
 
+  function indexOfMax(arr) {
+
+    var max = arr[0];
+    var maxIndex = 0;
+
+    for (var i = 1; i < arr.length; i++) {
+        if (arr[i] > max) {
+            maxIndex = i;
+            max = arr[i];
+        }
+    }
+    return maxIndex;
+}
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{props.anecdotes[selected]}</p>
       <p>has {scores[selected]} votes</p>
       <AnecButton name = "next anecdote" value = {selected} set = {setSelected}></AnecButton>
-      <VoteButton name = 'vote' value = {scores} selected = {selected} set ={addScores}/>
+      <VoteButton name = 'vote' value = {scores} set = {handleVote}/>
+      <h1>Anecdote with the most votes</h1>
+      <p>{props.anecdotes[indexOfMax(scores)]}</p>
+
     </div>
   )
 }
 
-const VoteButton =(props) =>{
+const VoteButton = (props) => {
   return(
-    <button onClick = {props.set()}>vote</button>
+    <button onClick = {props.set}>{props.name}</button>
   )
 }
 
