@@ -8,6 +8,24 @@ const Person = (props) => {
     )
 }
 
+const PersonsForm = (props) => {
+  const toShow = props.persons.filter(person => person.name.toUpperCase().includes(props.search.toUpperCase()) === true)
+  return(
+    <div>
+    <h2>Numbers</h2>
+    {toShow.map((person) => <Person key = {person.name} name = {person.name} phone = {person.phone}/>)}
+    </div>
+  )
+}
+
+const FilterForm =(props) => {
+  return(
+    <div>
+    filter shown with: <input value = {props.newSearch} onChange = {props.onChange}/>
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', phone: '040-123456' },
@@ -52,12 +70,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
-          <div>
-              filter shown with: <input value = {newSearch} onChange = {handleNewSearch}/>
-          </div>
-      </form>
-
+        <FilterForm value = {newSearch} onChange = {handleNewSearch}/>
       <h2>add a new</h2>
       <form onSubmit = {addName}>
         <div>
@@ -70,12 +83,7 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
-      
-        {persons.filter(person =>
-          person.name.toUpperCase().includes(newSearch.toUpperCase()) === true).map((person) =>
-            <Person key = {person.name} name = {person.name} phone = {person.phone}/>
-        )}
+      <PersonsForm persons = {persons} search = {newSearch}/>
     </div>
   )
 }
