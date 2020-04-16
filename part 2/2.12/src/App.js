@@ -11,10 +11,10 @@ const FilterForm =(props) => {
 }
 
 const CountriesProp = (props) => {
-  console.log('propsit', props)
+  console.log('countries prop: ', props)
   return(
     <div>
-      {props.map((country) => <Country key = {country.name} name = {country.name}/>)}
+      <Country name = {props}/>
     </div>
   )
 }
@@ -22,14 +22,14 @@ const CountriesProp = (props) => {
 const Country = (props) => {
   return(
     <div>
-      {props.name}
+
     </div>
   )
 }
 
 function App() {
   const [search, setSearch] = useState('')
-  const [countries, setCountries] = useState([])
+  const [countries, setCountries] = useState({})
   const handleNewChange = (event) => {
     setSearch(event.target.value)
   }
@@ -38,12 +38,14 @@ function App() {
     axios
     .get('https://restcountries.eu/rest/v2/all')
     .then(response => {
+      console.log(response.data, 'response data')
       setCountries(response.data)
     })
   }
 
   useEffect(hook, [])
 
+  console.log(countries, 'maat :D')
   return (
     <div>
       <FilterForm value = {search} onChange = {handleNewChange}/>
