@@ -11,25 +11,27 @@ const FilterForm =(props) => {
 }
 
 const CountriesProp = (props) => {
-  console.log('countries prop: ', props)
+  const countries = props.props
+  console.log('countries prop: ', countries)
   return(
     <div>
-      <Country name = {props}/>
+      {countries.map(country => <Country key = {country.name} name = {country.name}/>)}
     </div>
   )
 }
 
 const Country = (props) => {
+  console.log('Country', props.name)
   return(
     <div>
-
+      {props.name}
     </div>
   )
 }
 
 function App() {
   const [search, setSearch] = useState('')
-  const [countries, setCountries] = useState({})
+  const [countries, setCountries] = useState([{}])
   const handleNewChange = (event) => {
     setSearch(event.target.value)
   }
@@ -45,7 +47,7 @@ function App() {
 
   useEffect(hook, [])
 
-  console.log(countries, 'maat :D')
+  console.log(countries, 'App maat')
   return (
     <div>
       <FilterForm value = {search} onChange = {handleNewChange}/>

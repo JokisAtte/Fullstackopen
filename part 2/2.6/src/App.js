@@ -45,7 +45,6 @@ const App = () => {
       })
   },[])
 
-
   const addName = (event) => {
     event.preventDefault()
 
