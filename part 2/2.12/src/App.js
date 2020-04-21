@@ -11,11 +11,41 @@ const FilterForm =(props) => {
 }
 
 const CountriesProp = (props) => {
-  const countries = props.countries
-  const toShow = props.countries.filter(country => country.name.includes(props.search) === true)
+  const toShow = props.countries.filter(country =>
+    country.name.includes(props.search) === true)
+  if(toShow.length < 10 && toShow.length > 1){
+    return(
+      <div>
+        {toShow.map((country) => <Country key = {country.name} name = {country.name}/>)}
+      </div>
+    )
+  } else if(toShow.length === 1){
+    return(
+      <div>
+        <CountryDetails country = {toShow[0]}/>
+      </div>
+    )
+  } else {
+    return(
+      <div>
+        Too many matches. Please specify another filter
+      </div>
+    )
+  }
+}
+
+const CountryDetails = (props) => {
+  const country = props.country
   return(
     <div>
-      {toShow.map((country,i) => <Country key = {i} name = {country.name}/>)}
+    <h1>{country.name}</h1>
+    <p>Capital {country.capital}</p>
+    <p>Population {country.population}</p>
+    <h3>languages</h3>
+    <ul>
+      {country.languages.map((language,i) => <li key = {i}>{language.name}</li>)}
+    </ul>
+    <img src = {country.flag} width = '300' border = '1'></img>
     </div>
   )
 }
@@ -34,7 +64,6 @@ function App() {
 
   const handleNewChange = (event) => {
     setSearch(event.target.value)
-    console.log('haku tallessa', search)
   }
 
   useEffect(() => {
@@ -46,7 +75,6 @@ function App() {
     })
   },[])
  
-  console.log(countries)
   return (
     <div>
       <FilterForm value = {search} onChange = {handleNewChange}/>
