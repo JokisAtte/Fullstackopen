@@ -46,6 +46,28 @@ const CountryDetails = (props) => {
       {country.languages.map((language,i) => <li key = {i}>{language.name}</li>)}
     </ul>
     <img src = {country.flag} width = '300' border = '1'></img>
+    <WeatherDetails capital = {country.capital} />
+    </div>
+  )
+}
+
+const WeatherDetails = (props) => {
+  const [weather, setWeather] = useState({})
+  const apiKey = process.env.REACT_APP_API_KEY
+  let getstr = `api.openweathermap.org/data/2.5/weather?q={${props.capital}}&appid={${apiKey}}`
+  useEffect(() => {
+    axios
+    .get('api.openweathermap.org/data/2.5/weather?q={${Helsinki}&appid={97112670da12b384c5327206ad3d1a08}')
+    .then(response =>{
+      setWeather(response.data)
+      console.log('Sää haettu')
+    })
+},[])
+
+  console.log('Sää: ', weather)
+  return(
+    <div>
+      Toteuta tähän ne säätiedot
     </div>
   )
 }
