@@ -11,17 +11,16 @@ const FilterForm =(props) => {
 }
 
 const CountriesProp = (props) => {
-  const countries = props.props
-  console.log('countries prop: ', countries)
+  const countries = props.countries
+  const toShow = props.countries.filter(country => country.name.includes(props.search) === true)
   return(
     <div>
-      {countries.map(country => <Country key = {country.name} name = {country.name}/>)}
+      {toShow.map((country,i) => <Country key = {i} name = {country.name}/>)}
     </div>
   )
 }
 
 const Country = (props) => {
-  console.log('Country', props.name)
   return(
     <div>
       {props.name}
@@ -31,27 +30,27 @@ const Country = (props) => {
 
 function App() {
   const [search, setSearch] = useState('')
-  const [countries, setCountries] = useState([{}])
+  const [countries, setCountries] = useState([])
+
   const handleNewChange = (event) => {
     setSearch(event.target.value)
+    console.log('haku tallessa', search)
   }
 
-  const hook = () => {
+  useEffect(() => {
     axios
     .get('https://restcountries.eu/rest/v2/all')
     .then(response => {
-      console.log(response.data, 'response data')
       setCountries(response.data)
+      console.log('Maat haettu')
     })
-  }
-
-  useEffect(hook, [])
-
-  console.log(countries, 'App maat')
+  },[])
+ 
+  console.log(countries)
   return (
     <div>
       <FilterForm value = {search} onChange = {handleNewChange}/>
-      <CountriesProp props = {countries}/>
+      <CountriesProp countries = {countries} search = {search}/>
     </div>
   )
 }
