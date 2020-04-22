@@ -53,21 +53,22 @@ const CountryDetails = (props) => {
 
 const WeatherDetails = (props) => {
   const [weather, setWeather] = useState({})
-  const apiKey = process.env.REACT_APP_API_KEY
-  let getstr = `api.openweathermap.org/data/2.5/weather?q={${props.capital}}&appid={${apiKey}}`
+  const api_key = process.env.REACT_APP_API_KEY
+  let getstr = `http://api.openweathermap.org/data/2.5/weather?q=${props.capital}&appid=${api_key}&units=metric`
+  
   useEffect(() => {
     axios
-    .get('api.openweathermap.org/data/2.5/weather?q={${Helsinki}&appid={97112670da12b384c5327206ad3d1a08}')
+    .get(getstr)
     .then(response =>{
-      setWeather(response.data)
+      setWeather(response.data.main)
       console.log('Sää haettu')
     })
 },[])
 
-  console.log('Sää: ', weather)
   return(
     <div>
-      Toteuta tähän ne säätiedot
+      <h1>Weather in {props.capital}</h1>
+      Tempererature {weather.temp} feels like {weather.feels_like}
     </div>
   )
 }
@@ -83,7 +84,6 @@ const Country = (props) => {
 function App() {
   const [search, setSearch] = useState('')
   const [countries, setCountries] = useState([])
-
   const handleNewChange = (event) => {
     setSearch(event.target.value)
   }
