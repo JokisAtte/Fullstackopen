@@ -11,10 +11,11 @@ const Person = (props) => {
 
 const PersonsForm = (props) => {
   const toShow = props.persons.filter(person => person.name.toUpperCase().includes(props.search.toUpperCase()) === true)
+  console.log(toShow)
   return(
     <div>
     <h2>Numbers</h2>
-    {toShow.map((person) => <Person key = {person.name} name = {person.name} phone = {person.phone}/>)}
+    {toShow.map((person) => <Person key = {person.name} name = {person.name} phone = {person.number}/>)}
     </div>
   )
 }
