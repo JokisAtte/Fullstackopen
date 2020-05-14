@@ -11,7 +11,6 @@ const Person = (props) => {
 
 const PersonsForm = (props) => {
   const toShow = props.persons.filter(person => person.name.toUpperCase().includes(props.search.toUpperCase()) === true)
-  console.log(toShow)
   return(
     <div>
     <h2>Numbers</h2>
@@ -51,7 +50,7 @@ const App = () => {
 
     const personObject = {
         name: newName,
-        phone: newPhone
+        number: newPhone
       }
 
     const names = persons.map(person => person.name)
@@ -60,6 +59,11 @@ const App = () => {
     } else {
         window.alert(`${newName} is already added to phonebook`)
     }
+    axios
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        console.log(response)
+      })
     setNewName('')
     setNewPhone('')
   }
