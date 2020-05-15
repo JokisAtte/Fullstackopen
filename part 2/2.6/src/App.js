@@ -3,19 +3,38 @@ import axios from 'axios'
 import personService from './services/persons'
 
 const Person = (props) => {
-    return(
-        <p>
-            {props.name} {props.phone}
-        </p>
+  return(
+      <p>
+          {props.name} {props.phone}
+          <DeleteButton id = {props.id} name = {props.name} del={props.del} />
+      </p>
     )
 }
 
+const DeleteButton = (props) => {
+  const call = () => {
+    props.del(props)
+  }
+  return(
+    <button onClick = {call}>delete</button>
+  )
+}
+
 const PersonsForm = (props) => {
-  const toShow = props.persons.filter(person => person.name.toUpperCase().includes(props.search.toUpperCase()) === true)
+  console.log(props)
+  const toShow = props.persons.filter(person =>
+    person.name.toUpperCase().includes(props.search.toUpperCase()) === true)
   return(
     <div>
     <h2>Numbers</h2>
-    {toShow.map((person) => <Person key = {person.name} name = {person.name} phone = {person.number}/>)}
+    {toShow.map((person) => 
+    <Person 
+      key = {person.name} 
+      id = {person.id} 
+      name = {person.name} 
+      phone = {person.number}
+      del = {props.del}
+    />)}
     </div>
   )
 }
@@ -39,30 +58,49 @@ const App = () => {
     personService
       .getAll()
       .then(response => {
-        console.log('get all promise fulfilled')
+        console.log('get all promise fulfilled, data:')
+        console.log(response.data)
         setPersons(response.data)
     })
   },[])
 
+  const handleDelete = (person) => {
+    let wantToDelete = window.confirm(`Delete ${person.name}?`)
+    if(wantToDelete){
+      personService
+        .deleteContact(person.id)
+        .then(() => {
+          personService.getAll()
+            .then(response => {
+              setPersons(response.data)
+            })
+          //setPersons(response.data)
+        })
+    }
+  }
+
+  //This handles new contacts
   const addName = (event) => {
     event.preventDefault()
 
     const personObject = {
-        name: newName,
-        number: newPhone
+      name: newName,
+      number: newPhone
       }
 
     const names = persons.map(person => person.name)
     if(!names.includes(newName)){
-        setPersons(persons.concat(personObject))
-    } else {
-        window.alert(`${newName} is already added to phonebook`)
-    }
-    personService
-      .create('http://localhost:3001/persons', personObject)
+      console.log('lisätään ', personObject)
+      //setPersons(persons.concat(personObject))
+      personService
+      .create(personObject)
       .then(response => {
-        console.log(response)
+        setPersons(persons.concat(response.data))
       })
+    } else {
+      window.alert(`${newName} is already added to phonebook`)
+    }
+
     setNewName('')
     setNewPhone('')
   }
@@ -78,7 +116,7 @@ const App = () => {
   const handleNewSearch = (event) => {
     setNewSearch(event.target.value)
   }
-  
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -95,7 +133,11 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <PersonsForm persons = {persons} search = {newSearch}/>
+      <PersonsForm
+        persons = {persons}
+        search = {newSearch}
+        del = {handleDelete}
+      />
     </div>
   )
 }
