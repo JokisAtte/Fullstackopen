@@ -32,6 +32,18 @@ const Notification = ({message}) => {
   )
 }
 
+const Error = ({message}) => {
+  if (message === ''){
+    return null
+  }
+
+  return(
+    <div className = "error">
+      {message}
+    </div>
+  )
+}
+
 const PersonsForm = (props) => {
   console.log(props)
   const toShow = props.persons.filter(person =>
@@ -65,6 +77,7 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('')
   const [newSearch, setNewSearch] = useState('')
   const [notification, setNotification] = useState('')
+  const [errormsg, setErrormsg] = useState('')
 
   useEffect(() => {
     console.log('effect get all')
@@ -88,8 +101,15 @@ const App = () => {
             .then(response => {
               setPersons(response.data)
             })
+            setNotification(`${person.name} deleted`)
         })
-        setNotification(`${person.name} deleted`)
+        .catch(error => {
+          console.log('fail')
+          setErrormsg(`information of ${person.name} has already been deleted from the server`)
+          setTimeout( () => {
+            setErrormsg('')
+          }, 3000)
+        })
         setTimeout(() => {
           setNotification('')
         },3000)
@@ -152,6 +172,7 @@ const App = () => {
   return (
     <div>
       <Notification message = {notification} />
+      <Error message = {errormsg} />
       <h2>Phonebook</h2>
         <FilterForm value = {newSearch} onChange = {handleNewSearch}/>
       <h2>add a new</h2>
