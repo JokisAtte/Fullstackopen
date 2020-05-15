@@ -64,6 +64,7 @@ const App = () => {
     })
   },[])
 
+  //Deletes a contact
   const handleDelete = (person) => {
     let wantToDelete = window.confirm(`Delete ${person.name}?`)
     if(wantToDelete){
@@ -74,7 +75,6 @@ const App = () => {
             .then(response => {
               setPersons(response.data)
             })
-          //setPersons(response.data)
         })
     }
   }
@@ -91,14 +91,21 @@ const App = () => {
     const names = persons.map(person => person.name)
     if(!names.includes(newName)){
       console.log('lisätään ', personObject)
-      //setPersons(persons.concat(personObject))
       personService
       .create(personObject)
       .then(response => {
         setPersons(persons.concat(response.data))
       })
     } else {
-      window.alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook. Replace the old number with new one?`)){
+        const person = persons.find(p => p.name === newName)
+        const changedObject = {... person, number : newPhone }
+        personService
+          .update(person.id, changedObject)
+          .then(response => {
+            setPersons(persons.map(p => p.id !== changedObject.id ? p : response.data))
+          })
+      }
     }
 
     setNewName('')
