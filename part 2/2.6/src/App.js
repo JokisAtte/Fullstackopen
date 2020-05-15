@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import './index.css'
 import personService from './services/persons'
 
 const Person = (props) => {
@@ -17,6 +17,18 @@ const DeleteButton = (props) => {
   }
   return(
     <button onClick = {call}>delete</button>
+  )
+}
+
+const Notification = ({message}) => {
+  if (message === '') {
+    return null
+  }
+
+  return(
+    <div className="notification">
+      {message}
+    </div>
   )
 }
 
@@ -52,6 +64,7 @@ const App = () => {
   const [newName, setNewName ] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [newSearch, setNewSearch] = useState('')
+  const [notification, setNotification] = useState('')
 
   useEffect(() => {
     console.log('effect get all')
@@ -76,6 +89,10 @@ const App = () => {
               setPersons(response.data)
             })
         })
+        setNotification(`${person.name} deleted`)
+        setTimeout(() => {
+          setNotification('')
+        },3000)
     }
   }
 
@@ -96,6 +113,10 @@ const App = () => {
       .then(response => {
         setPersons(persons.concat(response.data))
       })
+      setNotification(`${personObject.name} added`)
+      setTimeout(() => {
+        setNotification('')
+      },3000)
     } else {
       if (window.confirm(`${newName} is already added to phonebook. Replace the old number with new one?`)){
         const person = persons.find(p => p.name === newName)
@@ -105,6 +126,10 @@ const App = () => {
           .then(response => {
             setPersons(persons.map(p => p.id !== changedObject.id ? p : response.data))
           })
+        setNotification(`${personObject.name}'s number updated`)
+        setTimeout(() => {
+          setNotification('')
+        },3000)
       }
     }
 
@@ -126,6 +151,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message = {notification} />
       <h2>Phonebook</h2>
         <FilterForm value = {newSearch} onChange = {handleNewSearch}/>
       <h2>add a new</h2>
