@@ -2,6 +2,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let persons = [
     {
       "name": "Kalle",
@@ -32,9 +34,45 @@ app.get('/api/persons/:id', (req,res) => {
 app.delete('/api/persons/:id', (req,res) => {
   const id = Number(req.params.id)
   persons = persons.filter(p => p.id !== id)
-  
   res.status(204).end()
 })
+
+app.post('/api/persons', (req,res) => {
+  const person = req.body
+  const id = generateId()
+  
+  if(!person.name){
+    return res.status(400).json({
+      error: 'name missing'
+    })
+  }
+  if(!person.number){
+    return res.status(400).json({
+      error: 'number missing'
+    })
+  }
+
+  const names = persons.map(p => p.name)
+  if(names.includes(person.name)){
+    return res.status(400).json({
+      error: 'Name must be unique'
+    })
+  }
+
+  const newName = {
+   name : person.name,
+   number: person.number,
+   id : id
+  }
+  
+  persons = persons.concat(newName)
+  res.json(persons)
+})
+
+const generateId = () => {
+  const max = 1000
+  return Math.floor(Math.random()* Math.floor(max))
+}
 
 app.get('/info', (reg,res) => {
   console.log(reg.query)
