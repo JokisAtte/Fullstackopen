@@ -45,7 +45,6 @@ const Error = ({message}) => {
 }
 
 const PersonsForm = (props) => {
-  console.log(props)
   const toShow = props.persons.filter(person =>
     person.name.toUpperCase().includes(props.search.toUpperCase()) === true)
   return(
@@ -80,12 +79,9 @@ const App = () => {
   const [errormsg, setErrormsg] = useState('')
 
   useEffect(() => {
-    console.log('effect get all')
     personService
       .getAll()
       .then(response => {
-        console.log('get all promise fulfilled, data:')
-        console.log(response.data)
         setPersons(response.data)
     })
   },[])
@@ -104,7 +100,6 @@ const App = () => {
             setNotification(`${person.name} deleted`)
         })
         .catch(error => {
-          console.log('fail')
           setErrormsg(`information of ${person.name} has already been deleted from the server`)
           setTimeout( () => {
             setErrormsg('')
@@ -131,7 +126,9 @@ const App = () => {
       personService
       .create(personObject)
       .then(response => {
-        setPersons(persons.concat(response.data))
+        console.log('Setting persons to:')
+        console.log(persons.concat(personObject))
+        setPersons(persons.concat(personObject))
       })
       setNotification(`${personObject.name} added`)
       setTimeout(() => {
