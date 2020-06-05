@@ -1,1 +1,0 @@
-Full stack open palautukset 2020
