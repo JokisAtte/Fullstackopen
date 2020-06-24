@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/persons'
+const baseUrl = '/api/persons'
+app.use(express.static('build'))
+
 
 const getAll = () => {
     return axios.get(baseUrl)

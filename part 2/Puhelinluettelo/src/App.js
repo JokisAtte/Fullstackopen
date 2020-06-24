@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './index.css'
 import personService from './services/persons'
+app.use(express.static('build'))
 
 const Person = (props) => {
   return(
