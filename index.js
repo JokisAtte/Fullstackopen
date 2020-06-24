@@ -21,10 +21,6 @@ let persons = [
     }
 ]
 
-app.get('/', (reg,res) => {
-  res.send('<h1> Hello! </h1>')
-})
-
 app.get('/api/persons/', (req,res) => {
   res.json(persons)
 })
