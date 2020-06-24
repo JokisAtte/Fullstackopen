@@ -1,9 +1,5 @@
 const mongoose = require('mongoose')
-
-if (process.argv.length<3) {
-  console.log('Need more arguments! (PW, name, muber)')
-  process.exit(1)
-}
+console.log(process.argv.length)
 
 const password = process.argv[2]
 
@@ -19,12 +15,21 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model('person', personSchema)
 
-const person = new Person({
-    name: process.argv[3],
-    number: process.argv[4]
-})
-
-person.save().then(response => {
-  console.log(`added ${person.name} number ${person.number} to phonebook`)
-  mongoose.connection.close()
-})
+if (process.argv.length <= 3) {
+    Person.find({}).then(result => {
+        result.forEach(person => {
+          console.log(person)
+        })
+        mongoose.connection.close()
+      })
+} else {
+    
+    const person = new Person({
+        name: process.argv[3],
+        number: process.argv[4]
+    })
+    
+    person.save().then(response => {
+      console.log(`added ${person.name} number ${person.number} to phonebook`)
+      mongoose.connection.close()
+    })}
