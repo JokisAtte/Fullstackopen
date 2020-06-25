@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-console.log(process.argv.length)
-
 const password = process.argv[2]
 
 const url =

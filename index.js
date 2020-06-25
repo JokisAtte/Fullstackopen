@@ -1,13 +1,22 @@
-
 const express = require('express')
 const app = express()
+
 var morgan = require('morgan')
 const cors = require('cors')
+require('dotenv').config()
+const Person = require('./part 2/models/person.js')
 
+//Middlewaret
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static('build'))
+
+const url =
+  process.env.MONGODB_URI  
+
+console.log(url)
+
 
 let persons = [
     {
@@ -22,14 +31,18 @@ let persons = [
     }
 ]
 
-app.get('/api/persons/', (req,res) => {
-  res.json(persons)
+app.get('/api/persons', (req,res) => {
+  Person.find({}).then(result => {
+    result.forEach(person => {
+      persons.concat(person)
+    })
+  })
 })
 
 app.get('/api/persons/:id', (req,res) => {
-  const id = Number(req.params.id)
-  const person = persons.find(per => per.id === id)
-  res.json(person)
+  Person.findById(req.params.id).then(person => {
+    res.json(person)
+  })
 })
 
 app.delete('/api/persons/:id', (req,res) => {
@@ -60,14 +73,15 @@ app.post('/api/persons', (req,res) => {
     })
   }
 
-  const newName = {
+  const newPerson = new Person({
    name : person.name,
    number: person.number,
    id : id
-  }
+  })
   
-  persons = persons.concat(newName)
-  res.json(persons)
+  newPerson.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 })
 
 const generateId = () => {
@@ -82,7 +96,8 @@ app.get('/info', (reg,res) => {
   res.send(`<div> Phonebook has info for ${persons.length} people </div> ${date}`)
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
