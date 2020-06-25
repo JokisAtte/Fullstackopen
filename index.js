@@ -4,7 +4,7 @@ const app = express()
 var morgan = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
-const Person = require('./part 2/models/person.js')
+const Person = require('./models/person.js')
 
 //Middlewaret
 app.use(express.json())
@@ -17,19 +17,7 @@ const url =
 
 console.log(url)
 
-
-let persons = [
-    {
-      "name": "Kalle",
-      "number": "123",
-      "id": 1
-    },
-    {
-      "name": "Matti",
-      "number": "123",
-      "id": 2
-    }
-]
+let persons = []
 
 app.get('/api/persons', (req,res) => {
   console.log("get /api/persons")
