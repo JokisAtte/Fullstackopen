@@ -15,7 +15,7 @@ app.use(express.static('build'))
 const url =
   process.env.MONGODB_URI  
 
-console.log(url)
+console.log("ulri on : ", url)
 
 let persons = []
 
