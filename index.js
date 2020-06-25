@@ -4,7 +4,7 @@ const app = express()
 var morgan = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
-const Person = require('./models/person.js')
+const Person = require('./models/person')
 
 //Middlewaret
 app.use(express.json())
