@@ -32,9 +32,11 @@ let persons = [
 ]
 
 app.get('/api/persons', (req,res) => {
+  console.log("get /api/persons")
   Person.find({}).then(result => {
     result.forEach(person => {
       persons.concat(person)
+      console.log(person)
     })
   })
 })
