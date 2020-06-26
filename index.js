@@ -12,8 +12,6 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static('build'))
 
-const url = process.env.MONGODB_URI  
-
 app.get('/api/persons', (request, response) => {
   console.log("GETTAA KAIKKI")
   Person.find({}).then(persons => {
