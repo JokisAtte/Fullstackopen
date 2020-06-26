@@ -17,21 +17,16 @@ const url =
 
 console.log("ulri on : ", url)
 
-let persons = []
 
-app.get('/api/persons', (req,res) => {
-  console.log("get /api/persons")
-  Person.find({}).then(result => {
-    result.forEach(person => {
-      persons.concat(person)
-      console.log(person)
-    })
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(persons => {
+    response.json(persons.map(person => person.toJSON()))
   })
 })
 
-app.get('/api/persons/:id', (req,res) => {
-  Person.findById(req.params.id).then(person => {
-    res.json(person)
+app.get('/api/persons/:id', (request, response) => {
+  Person.findById(request.params.id).then(person => {
+    person ? response.json(person) : response.status(404).end()
   })
 })
 
