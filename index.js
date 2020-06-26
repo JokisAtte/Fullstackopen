@@ -15,7 +15,6 @@ app.use(express.static('build'))
 app.get('/api/persons', (request, response) => {
   console.log("GETTAA KAIKKI")
   Person.find({}).then(persons => {
-    console.log(persons)
     response.json(persons.map(person => person.toJSON()))
   })
 })
@@ -33,6 +32,7 @@ app.delete('/api/persons/:id', (req,res) => {
 })
 
 app.post('/api/persons', (req,res) => {
+  console.log("Postaa uusi")
   const person = req.body
   const id = generateId()
   
@@ -47,12 +47,12 @@ app.post('/api/persons', (req,res) => {
     })
   }
 
-  const names = persons.map(p => p.name)
-  if(names.includes(person.name)){
-    return res.status(400).json({
-      error: 'Name must be unique'
-    })
-  }
+  //const names = persons.map(p => p.name)
+  //if(names.includes(person.name)){
+  //  return res.status(400).json({
+  //    error: 'Name must be unique'
+  //  })
+  //}
 
   const newPerson = new Person({
    name : person.name,
