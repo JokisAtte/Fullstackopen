@@ -17,6 +17,7 @@ const url = process.env.MONGODB_URI
 app.get('/api/persons', (request, response) => {
   console.log("GETTAA KAIKKI")
   Person.find({}).then(persons => {
+    console.log(persons)
     response.json(persons.map(person => person.toJSON()))
   })
 })
