@@ -12,13 +12,10 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static('build'))
 
-const url =
-  process.env.MONGODB_URI  
-
-console.log("ulri on : ", url)
-
+const url = process.env.MONGODB_URI  
 
 app.get('/api/persons', (request, response) => {
+  console.log("GETTAA KAIKKI")
   Person.find({}).then(persons => {
     response.json(persons.map(person => person.toJSON()))
   })
