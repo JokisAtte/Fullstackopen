@@ -12,36 +12,39 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static('build'))
 
-app.get('/api/persons', (request, response) => {
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+app.use(errorHandler)
+
+app.get('/api/persons', (request, response, next) => {
   console.log("GETTAA KAIKKI")
   Person.find({}).then(persons => {
     response.json(persons.map(person => person.toJSON()))
   })
-  .catch(error => {
-    console.log(error)
-    response.status(404).end()
-  })
+  .catch(error => next(error))
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
     person ? response.json(person) : response.status(404).end()
   })
-  .catch(error => {
-    console.log(error)
-    response.status(400).send({error: "Malformated ID "})
-  })
+  .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (req,res) => {
+app.delete('/api/persons/:id', (req,res,next) => {
   Person.findByIdAndRemove(req.params.id)
     .then(result => {
       response.status(204).end()
     })
-    .catch(error => {
-      console.log(error)
-      res.status(404).end()
-    })
+    .catch(error => next(error))
 })
 
 app.post('/api/persons', (req,res) => {
@@ -59,13 +62,6 @@ app.post('/api/persons', (req,res) => {
       error: 'number missing'
     })
   }
-
-  //const names = persons.map(p => p.name)
-  //if(names.includes(person.name)){
-  //  return res.status(400).json({
-  //    error: 'Name must be unique'
-  //  })
-  //}
 
   const newPerson = new Person({
    name : person.name,
