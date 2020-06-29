@@ -17,11 +17,19 @@ app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
     response.json(persons.map(person => person.toJSON()))
   })
+  .catch(error => {
+    console.log(error)
+    response.status(404).end()
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
   Person.findById(request.params.id).then(person => {
     person ? response.json(person) : response.status(404).end()
+  })
+  .catch(error => {
+    console.log(error)
+    response.status(400).send({error: "Malformated ID"})
   })
 })
 
