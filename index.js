@@ -29,14 +29,19 @@ app.get('/api/persons/:id', (request, response) => {
   })
   .catch(error => {
     console.log(error)
-    response.status(400).send({error: "Malformated ID"})
+    response.status(400).send({error: "Malformated ID "})
   })
 })
 
 app.delete('/api/persons/:id', (req,res) => {
-  const id = Number(req.params.id)
-  persons = persons.filter(p => p.id !== id)
-  res.status(204).end()
+  Person.findByIdAndRemove(req.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(404).end()
+    })
 })
 
 app.post('/api/persons', (req,res) => {
