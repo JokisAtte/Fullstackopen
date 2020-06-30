@@ -3,7 +3,6 @@ var uniqueValidator = require('mongoose-unique-validator')
 console.log(process.argv[2])
 const url = process.env.MONGODB_URI || `mongodb+srv://fullstack:${process.argv[2]}@puhelinluettelocluster-v2lrs.mongodb.net/persons-app?retryWrites=true&w=majority`
 
-
 console.log('connecting to', url)
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
