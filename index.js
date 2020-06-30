@@ -17,8 +17,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+      return response.status(400).json({error: error.message})
   }
-
   next(error)
 }
 
@@ -47,9 +48,9 @@ app.delete('/api/persons/:id', (req,res,next) => {
     .catch(error => next(error))
 })
 
-app.post('/api/persons', (req,res) => {
-  console.log("Postaa uusi")
+app.post('/api/persons', (req,res,next) => {
   const person = req.body
+  console.log("Postataan: ", person.name, "  ", person.number)
   const id = generateId()
   
   if(!person.name){
@@ -72,6 +73,7 @@ app.post('/api/persons', (req,res) => {
   newPerson.save().then(savedPerson => {
     response.json(savedPerson)
   })
+  .catch(error => next(error))
 })
 
 const generateId = () => {
@@ -86,7 +88,7 @@ app.get('/info', (reg,res) => {
   res.send(`<div> Phonebook has info for ${persons.length} people </div> ${date}`)
 })
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3001
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

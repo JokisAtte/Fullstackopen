@@ -1,7 +1,7 @@
-POST https://whispering-bastion-21565.herokuapp.com/api/persons
+POST http://localhost:3001/api/persons
 Content-type : application/json
 
 {
-    "name": "B",
-    "number" : "666"
+    "name": "Matti",
+    "number" : "123"
 }

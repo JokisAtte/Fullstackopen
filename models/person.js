@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
-const url = process.env.MONGODB_URI
+var uniqueValidator = require('mongoose-unique-validator')
+console.log(process.argv[2])
+const url = process.env.MONGODB_URI || `mongodb+srv://fullstack:${process.argv[2]}@puhelinluettelocluster-v2lrs.mongodb.net/persons-app?retryWrites=true&w=majority`
+
 
 console.log('connecting to', url)
 
@@ -12,10 +15,19 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     })
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    number: {
+        type:  String,
+        required: true
+    },
     id: Number
 })
+
+personSchema.plugin(uniqueValidator)
 
 personSchema.set('toJSON', {
     transform:(document, returnedObject) => {
