@@ -24,18 +24,18 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 app.get('/api/persons', (request, response, next) => {
-  console.log("GETTAA KAIKKI")
+  console.log('GETTAA KAIKKI')
   Person.find({}).then(persons => {
     response.json(persons.map(person => person.toJSON()))
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
     person ? response.json(person) : response.status(404).end()
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (req,res,next) => {
@@ -48,7 +48,7 @@ app.delete('/api/persons/:id', (req,res,next) => {
 
 app.post('/api/persons', (req,res,next) => {
   const person = req.body
-  console.log("Postataan: ", person.name, "  ", person.number)
+  console.log('Postataan: ', person.name, '  ', person.number)
   const id = generateId()
   
   if(!person.name){
@@ -63,15 +63,15 @@ app.post('/api/persons', (req,res,next) => {
   }
 
   const newPerson = new Person({
-   name : person.name,
-   number: person.number,
-   id : id
+    name : person.name,
+    number: person.number,
+    id : id
   })
   
   newPerson.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 const generateId = () => {
