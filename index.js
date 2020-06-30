@@ -50,7 +50,7 @@ app.post('/api/persons', (req,res,next) => {
   const person = req.body
   console.log('Postataan: ', person.name, '  ', person.number)
   const id = generateId()
-  
+
   if(!person.name){
     return res.status(400).json({
       error: 'name missing'
@@ -67,7 +67,7 @@ app.post('/api/persons', (req,res,next) => {
     number: person.number,
     id : id
   })
-  
+
   newPerson.save().then(savedPerson => {
     response.json(savedPerson)
   })
