@@ -8,13 +8,15 @@ const initialBlogs = [
         title: '1',
         author: ' ',
         url: ' ',
-        likes: 3
+        likes: 3,
+        id: 1
     },
     {
         title: '2',
         author: ' ',
         url: ' ',
-        likes: 3
+        likes: 3,
+        id: 2
     }
 ]
 
@@ -49,7 +51,8 @@ test('blogs are saved', async () => {
         title: 'TESTI',
         author: ' ',
         url: ' ',
-        likes: 3
+        likes: 3,
+        id: 3
       })
     
     await api

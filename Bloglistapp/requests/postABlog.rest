@@ -2,8 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-type : application/json
 
 {
-  "title": "Testi3",
-  "author": "Minä",
+  "title": "Toimi jo :D",
+  "author": "Sun Mutsi",
   "url": "www.pronhub.com",
+  "user" : "Mie",
   "likes": 1000
 }

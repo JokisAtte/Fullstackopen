@@ -1,5 +1,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
+const { request, response } = require('express')
 
 blogsRouter.get('/', (request, response) => {
     Blog.find({})
@@ -7,23 +9,49 @@ blogsRouter.get('/', (request, response) => {
         response.json(blogs.map(blog => blog.toJSON()))
       })
   })
-  
-blogsRouter.post('/', (request, response) => {
+
+const generateId = () => {
+  const max = 1000
+  return Math.floor(Math.random()* Math.floor(max))
+}
+
+blogsRouter.post('/', async (request, response) => {
   const body = request.body
+  console.log("uusi post")
+  console.log(body)
+  const users = await User.find({name : "Atte Jokinen" })
+  user = users[0]
+
+  console.log(user)
 
   const blog = new Blog({
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes,
+    id: generateId(),
+    user: user._id
   })
 
-  blog.save()
-    .then(result => {
-      console.log("Tallennus tietokantaan onnistui!")
-      response.status(201).json(result)
-    })
-    .catch(error => next(error))
+  const savedBlog = await blog.save()
+  
+  user.blogs = user
+  await user.save()
+  response.json(savedBlog.toJSON())
+})
+
+blogsRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.body.id)
+  if (blog) {
+    response.json(blog.toJSON())
+  } else {
+    response.status(404).end()
+  }
+})
+
+blogsRouter.delete('/:id', async (request, response) => {
+  await Blog.deleteOne({id: request.params.id})
+  response.status(204).end()
 })
 
 module.exports = blogsRouter
