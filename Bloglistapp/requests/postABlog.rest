@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-type : application/json
+Authorization : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1pZSIsImlkIjoiNWYxN2ZmN2UwOTI5NGQyMjE4ZTUyMTFkIiwiaWF0IjoxNTk1NDE1NzY4fQ.fhDmMXyZjjnjFBsadQKz2Ic3wFDW-QLJ-k3J1Xh9uWM
+
+{
+  "title": "AAA :D ",
+  "author": "Sun Mutsi",
+  "url": "www.pronhub.com",
+  "likes": 1000
+}
