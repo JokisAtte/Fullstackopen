@@ -5,11 +5,11 @@ const jwt = require('jsonwebtoken')
 const { request, response } = require('express')
 
 blogsRouter.get('/', (request, response) => {
-    Blog.find({}).populate('user',{username : 1, name: 1})
-      .then(blogs => {
-        response.json(blogs.map(blog => blog.toJSON()))
-      })
-  })
+  Blog.find({}).populate('user',{username : 1, name: 1})
+    .then(blogs => {
+      response.json(blogs.map(blog => blog.toJSON()))
+    })
+})
 
 const generateId = () => {
   const max = 1000
@@ -47,7 +47,7 @@ blogsRouter.post('/', async (request, response) => {
   console.log(blog)
 
   const savedBlog = await blog.save()
-  
+
   user.blogs = user.blogs.concat(savedBlog)
   await user.save()
   response.json(savedBlog.toJSON())
@@ -68,7 +68,7 @@ blogsRouter.put('/:id', (request, response, next) => {
   const blog = {
     likes: body.likes,
   }
-  
+
   Blog.findByIdAndUpdate(request.params.id, blog , {new: true})
     .then(updatedBlog => {
       response.json(updatedBlog.toJSON())
