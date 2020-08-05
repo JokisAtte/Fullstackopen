@@ -23,7 +23,7 @@ export const vote = (content) => {
 export const newAnecdote = (content) => {
   const newAnec = asObject(content)
   return async dispatch => {
-    const add = await anecdoteService.createNew(newAnec)
+    await anecdoteService.createNew(newAnec)
     dispatch({
       type: 'NEW-ANECDOTE',
       data: newAnec,
@@ -42,9 +42,6 @@ export const initializeAnecdotes = () => {
 }
 
 const reducer = (state = [], action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
-
   const sortAnecs = () => {
     let anecs = state.sort((a,b) => (a.votes > b.votes) ? -1 : 1)
     return anecs
